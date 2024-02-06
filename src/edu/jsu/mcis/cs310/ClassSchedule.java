@@ -90,7 +90,7 @@ public class ClassSchedule {
                 obj4_1.put("instructor",obj4_1_1);
                 String[] names=jsonRecord.get("instructor").split(",");
                 for(int i=0;i<names.length;++i){
-                    obj4_1_1.add(names[i]);
+                    obj4_1_1.add(names[i].trim());
                 }
                 obj4.add(obj4_1);
                 
