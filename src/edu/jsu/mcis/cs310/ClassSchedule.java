@@ -39,20 +39,71 @@ public class ClassSchedule {
         List<String[]> full= getCsv(s);
         Iterator<String[]> iterator =full.iterator();
         JsonArray records=new JsonArray();
+        LinkedHashMap obj=new LinkedHashMap();
+        LinkedHashMap obj1=new LinkedHashMap();
+        LinkedHashMap obj2=new LinkedHashMap();
+        LinkedHashMap obj3=new LinkedHashMap();
+        JsonArray obj4=new JsonArray();
+        obj.put("scheduletype",obj1);
+        obj.put("subject",obj2);
+        obj.put("course",obj3);
+        obj.put("section", obj4);
+        
+        
+        LinkedHashMap<String,String> jsonRecord = new LinkedHashMap<>();
+        
+        
+        
+        
+        
         if(iterator.hasNext()){
             String[] headings=iterator.next();
             while(iterator.hasNext()){
                 String[] csvRecord=iterator.next();
-                LinkedHashMap<String,String> jsonRecord = new LinkedHashMap<>();
+                
                 for(int i=0;i<headings.length;++i){
                     jsonRecord.put(headings[i].toLowerCase(),csvRecord[i]);
                 }
-                records.add(jsonRecord);
+                obj1.put(jsonRecord.get("type"),jsonRecord.get("schedule"));
+                
+                obj2.put(jsonRecord.get("num").substring(0, 3).trim(),jsonRecord.get("subject"));
+                
+                LinkedHashMap obj3_1=new LinkedHashMap();
+                obj3.put(jsonRecord.get("num"), obj3_1);
+                obj3_1.put("subjectid",jsonRecord.get("num").substring(0, 3).trim());
+                obj3_1.put("num",jsonRecord.get("num").substring(3).trim());
+                obj3_1.put("description",jsonRecord.get("description"));
+                obj3_1.put("credits",Integer.parseInt(jsonRecord.get("credits")));
+                
+                LinkedHashMap obj4_1=new LinkedHashMap();
+                obj4_1.put("crn",Integer.parseInt(jsonRecord.get("crn")));
+                obj4_1.put("subjectid",jsonRecord.get("num").substring(0, 3).trim());
+                obj4_1.put("num",jsonRecord.get("num").substring(3).trim());
+                obj4_1.put("section",jsonRecord.get("section"));
+                obj4_1.put("type",jsonRecord.get("type"));
+                obj4_1.put("start",jsonRecord.get("start"));
+                obj4_1.put("end",jsonRecord.get("end"));
+                obj4_1.put("days",jsonRecord.get("days"));
+                obj4_1.put("where",jsonRecord.get("where"));
+                
+                JsonArray obj4_1_1=new JsonArray();
+                obj4_1.put("instructor",obj4_1_1);
+                String[] names=jsonRecord.get("instructor").split(",");
+                for(int i=0;i<names.length;++i){
+                    obj4_1_1.add(names[i]);
+                }
+                obj4.add(obj4_1);
+                
+                
+                
+                
+                
             }
         }
         
         
-        String jsonString=Jsoner.serialize(records);
+        
+        String jsonString=Jsoner.serialize(obj);
         
         
      
