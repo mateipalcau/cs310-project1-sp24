@@ -111,10 +111,299 @@ public class ClassSchedule {
     }
     
     public String convertJsonToCsvString(JsonObject json) {
+        Object j=new JsonObject();
+        JsonObject j1=new JsonObject();
+        JsonObject j2=new JsonObject();
+        List list=new ArrayList();
+        String s;
+        list=(ArrayList)json.get("section");
+        j=list.get(0);
+        String jsonString=Jsoner.serialize(j);
+        j2=getJson(jsonString);
+        String jsonString1=Jsoner.serialize(j2);
         
-        return ""; // remove this!
         
-    }
+        
+        
+        ArrayList<String> type = new ArrayList<String>();
+        ArrayList<String> schedule = new ArrayList<String>();
+        ArrayList<String> schedule1 = new ArrayList<String>();
+        LinkedHashMap<String,String> scheduletype=new LinkedHashMap();
+        LinkedHashMap <String,String> subject=new LinkedHashMap();
+        LinkedHashMap <String,Object>  course=new LinkedHashMap();
+        
+        
+        List<String[]> addresses = new ArrayList<String[]>();
+        String[] names={"crn","subject","num","description","section","type","credits","start","end","days","where","schedule","instructor"};
+        addresses.add(names);
+        
+        
+        
+        for (HashMap.Entry<String, Object> entry : json.entrySet()){
+            String key = entry.getKey();
+            if(key.equalsIgnoreCase("scheduletype")){
+                Object obj=new JsonObject();
+                obj=entry.getValue();
+                String jsonString_1=Jsoner.serialize(obj);
+                JsonObject j_1=new JsonObject();
+                j_1=getJson(jsonString_1);
+                for(HashMap.Entry<String, Object> entry1 : j_1.entrySet()){
+                    String key1=entry1.getKey();
+                    Object obj1=new JsonObject();
+                    obj1=entry1.getValue();
+                    String jString=Jsoner.serialize(obj1);
+                    
+                    
+                    scheduletype.put(key1, jString);
+                    
+                    
+                }
+                
+            }
+            
+            if(key.equalsIgnoreCase("subject")){
+                Object obj=new JsonObject();
+                obj=entry.getValue();
+                String jsonString_1=Jsoner.serialize(obj);
+                JsonObject j_1=new JsonObject();
+                j_1=getJson(jsonString_1);
+                for(HashMap.Entry<String, Object> entry1 : j_1.entrySet()){
+                    String key1=entry1.getKey();
+                    Object obj1=new JsonObject();
+                    obj1=entry1.getValue();
+                    String jString=Jsoner.serialize(obj1);
+                    
+                    
+                    subject.put(key1, jString);
+                }
+                 
+            }
+            
+            if(key.equalsIgnoreCase("course")){
+                Object obj=new JsonObject();
+                obj=entry.getValue();
+                String jsonString_1=Jsoner.serialize(obj);
+                JsonObject j_1=new JsonObject();
+                j_1=getJson(jsonString_1);
+                String t1=entry.getValue().toString();
+                
+                for(HashMap.Entry<String, Object> entry1 : j_1.entrySet()){
+                    LinkedHashMap <String,String> course_object=new LinkedHashMap();
+                    String key1=entry1.getKey();
+                    Object obj1=new JsonObject();
+                    obj1=entry1.getValue();
+                    String jsonString_2=Jsoner.serialize(obj1);
+                    JsonObject j_2=new JsonObject();
+                    j_2=getJson(jsonString_2);
+                    String t=entry1.getValue().toString();
+                    course.put(key1,course_object);
+                                        
+                    
+                    course.put(key1, course_object);
+                    for(HashMap.Entry<String,Object> entry2: j_2.entrySet()){
+                        String key2=entry2.getKey();
+                        String jString=entry2.getValue().toString();
+                        
+                        course_object.put(key2, jString);
+                    }
+                }
+                 
+            }
+        }
+        for(HashMap.Entry<String, Object> entry:json.entrySet()){
+            
+            String key=entry.getKey();
+            if(key.equalsIgnoreCase("section")){
+                
+                List list1=new ArrayList(); 
+                
+                list1=(ArrayList)entry.getValue();
+                
+                for(Object entry1 : list1){
+                    
+                    Object obj1=new JsonObject();
+                    obj1=entry1;
+                    String jsonString_1=Jsoner.serialize(obj1);
+                    JsonObject j_1=new JsonObject();
+                    j_1=getJson(jsonString_1);
+                    String v=null;
+                    String n = null;
+                    String[] addressesArr  = new String[13];
+                    
+                    
+                    Object o=new JsonObject();
+                    Object o1=new JsonObject();
+                    Object o2=new JsonObject();
+                    JsonObject oJ=new JsonObject();
+                    
+                    for(HashMap.Entry<String, Object> entry2 : j_1.entrySet()){
+                        String key2=entry2.getKey();
+                        
+                        
+                        if(key2.equalsIgnoreCase("crn")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[0]=x;  
+                        }
+                        if(key2.equalsIgnoreCase("subjectid")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            String ad;
+                            
+                            v=Jsoner.serialize(obj2);
+                            v=v.substring(1, v.length()-1);
+                            
+                            ad=subject.get(x.substring(1, x.length()-1));
+                            addressesArr[1]=ad.substring(1, ad.length()-1);
+                            
+                        }
+                        if(key2.equalsIgnoreCase("num")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            n=Jsoner.serialize(obj2);
+                            n=n.substring(1, n.length()-1);
+                             //?????????
+                            
+                        }
+                        if(key2.equalsIgnoreCase("section")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[4]=x.substring(1, x.length()-1);  
+                            
+                        }
+                        if(key2.equalsIgnoreCase("type")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[5]=x.substring(1, x.length()-1);
+                            String ad1;
+                            ad1=scheduletype.get(x.substring(1, x.length()-1)); 
+                            addressesArr[11]=ad1.substring(1, ad1.length()-1);
+                            
+                            
+                            
+                        }
+                        if(key2.equalsIgnoreCase("start")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[7]=x.substring(1, x.length()-1);
+                            
+                        }
+                        if(key2.equalsIgnoreCase("end")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[8]=x.substring(1, x.length()-1);
+                            
+                        }
+                        if(key2.equalsIgnoreCase("days")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[9]=x.substring(1, x.length()-1);
+                            
+                        }
+                        if(key2.equalsIgnoreCase("where")){
+                            Object obj2=new JsonObject();
+                            obj2=entry2.getValue();
+                            String x=Jsoner.serialize(obj2);
+                            addressesArr[10]=x.substring(1, x.length()-1);
+                            
+                        }
+                        if(key2.equalsIgnoreCase("instructor")){
+                            
+                            List list2=new ArrayList();
+                            list1=(ArrayList)entry2.getValue();
+                            addressesArr[12]="";
+                            for(Object entry3:list1){
+                                Object obj3=new JsonObject();
+                                obj3=entry3;
+                                String jsonString_3=Jsoner.serialize(obj3);
+                                addressesArr[12]=addressesArr[12]+jsonString_3.substring(1, jsonString_3.length()-1)+", ";
+                                
+                            }
+                            addressesArr[12]=addressesArr[12].substring(0, addressesArr[12].length()-2);
+                            
+                            
+                            
+                        }
+                        
+                        
+                        
+                    }
+                    addressesArr[2]=v+" "+n;
+                    o=course.get(addressesArr[2]);
+                    
+                    String js1=Jsoner.serialize(o);
+                    oJ=getJson(js1);
+                    String js2=oJ.get("description").toString();
+                    addressesArr[3]=js2;
+                    String js3=oJ.get("credits").toString();
+                    addressesArr[6]=js3;
+                    type.add(js3);
+                    
+                    
+                    
+                    /*for (HashMap.Entry<String, Object> entry7 : course.entrySet()){
+                        String key7=entry7.getKey();
+                        
+                        if(key7.equalsIgnoreCase(addressesArr[2])){
+                            
+                            Object obj7=new JsonObject();
+                            obj7=entry7.getValue();
+                            String jsonString_7=Jsoner.serialize(obj7);
+                            
+                            JsonObject j_7=new JsonObject();
+                            
+                            for(HashMap.Entry<String, Object> entry8 : j_7.entrySet()){
+                                String key8=entry8.getKey();
+                                if(key8.equalsIgnoreCase("description")){
+                                    
+                                    Object obj8=new JsonObject();
+                                    obj8=entry8.getValue();
+                                    String jString8=Jsoner.serialize(obj8);
+                                    addressesArr[3]=jString8;
+                                    type.add(addressesArr[3]);
+                                }
+                                if(key8.substring(1, key8.length()-1).equalsIgnoreCase("description")){
+                                    Object obj8=new JsonObject();
+                                    obj8=entry8.getValue();
+                                    String jString8=Jsoner.serialize(obj8);
+                                    addressesArr[6]=jString8;
+                                }
+                            }
+                        }
+                    }*/
+
+
+                    
+                    
+                    
+                    
+                    addresses.add(addressesArr);
+                    
+                    
+                    
+                }
+                
+                
+                 
+            }
+
+        } 
+
+            
+        
+        
+
+        String t=getCsvString(addresses);
+        
+        return t;
+    }   
     
     public JsonObject getJson() {
         
