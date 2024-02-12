@@ -34,11 +34,11 @@ public class ClassSchedule {
     private final String SUBJECTID_COL_HEADER = "subjectid";
     
     public String convertCsvToJsonString(List<String[]> csv) {
-        String s;
-        s=getInputFileData("jsu_sp24_v1.csv");
-        List<String[]> full= getCsv(s);
-        Iterator<String[]> iterator =full.iterator();
+        
+        Iterator<String[]> iterator =csv.iterator();
+        
         JsonArray records=new JsonArray();
+        
         LinkedHashMap obj=new LinkedHashMap();
         LinkedHashMap obj1=new LinkedHashMap();
         LinkedHashMap obj2=new LinkedHashMap();
@@ -348,36 +348,7 @@ public class ClassSchedule {
                     
                     
                     
-                    /*for (HashMap.Entry<String, Object> entry7 : course.entrySet()){
-                        String key7=entry7.getKey();
-                        
-                        if(key7.equalsIgnoreCase(addressesArr[2])){
-                            
-                            Object obj7=new JsonObject();
-                            obj7=entry7.getValue();
-                            String jsonString_7=Jsoner.serialize(obj7);
-                            
-                            JsonObject j_7=new JsonObject();
-                            
-                            for(HashMap.Entry<String, Object> entry8 : j_7.entrySet()){
-                                String key8=entry8.getKey();
-                                if(key8.equalsIgnoreCase("description")){
-                                    
-                                    Object obj8=new JsonObject();
-                                    obj8=entry8.getValue();
-                                    String jString8=Jsoner.serialize(obj8);
-                                    addressesArr[3]=jString8;
-                                    type.add(addressesArr[3]);
-                                }
-                                if(key8.substring(1, key8.length()-1).equalsIgnoreCase("description")){
-                                    Object obj8=new JsonObject();
-                                    obj8=entry8.getValue();
-                                    String jString8=Jsoner.serialize(obj8);
-                                    addressesArr[6]=jString8;
-                                }
-                            }
-                        }
-                    }*/
+                    
 
 
                     
